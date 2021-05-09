@@ -146,6 +146,7 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
           draggable: true,
           progress: undefined,
         })
+        localStorage.setItem('token', user.userId)
         history.push('/')
       } else {
         setLoginErrorVisible(true)

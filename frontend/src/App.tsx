@@ -1,9 +1,7 @@
 import React from 'react'
-import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './pages/home'
 import Login from './pages/login'
-import 'modern-normalize'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 
@@ -20,7 +18,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      {/* notification(toast) provider*/}
+      {/* toast provider */}
       <ToastContainer />
     </div>
   )

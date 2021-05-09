@@ -18,8 +18,11 @@ const typeDefs = gql`
     email: String
     password: String
   }
+  input FilterOptions {
+    userId: String
+  }
   type Query {
-    users: [User]
+    users(filter: FilterOptions): [User]
   }
   type Mutation {
     createUser(input: CreateUserInput): User

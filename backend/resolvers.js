@@ -1,13 +1,18 @@
 const { v4: uuidv4 } = require('uuid')
 const db = require('better-sqlite3')('./fb.db')
+const _ = require('lodash')
 
 db.exec('create table if not exists user(userId, firstName, lastName, email, password)')
 // db.exec('drop table user')
 const resolvers = {
   Query: {
-    users: async () => {
-      const users = await db.prepare('SELECT * FROM user').all()
-      return users
+    users: async (parent, args) => {
+      const filter = _.get(args, 'filter', {})
+      if (filter.userId) {
+        return await [db.prepare('select * from user where (userId = ?)').get(filter.userId)]
+      } else {
+        return await db.prepare('SELECT * FROM user').all()
+      }
     },
   },
   Mutation: {

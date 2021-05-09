@@ -1,17 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import Header from '../components/header'
+
+const Container = styled.div`
+  background: #f0f2f5;
+  height: 100vh;
+`
+
 const Home = () => {
   return (
-    <div>
-      <ul>
+    <Container>
+      <Header />
+      {/* <ul>
         <li>
           <Link to="/">Home</Link>
         </li>
         <li>
           <Link to="/login">Login</Link>
         </li>
-      </ul>
-    </div>
+      </ul> */}
+    </Container>
   )
 }
 export default Home
