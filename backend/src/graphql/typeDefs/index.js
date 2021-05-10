@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server')
+const { gql } = require('apollo-server-express')
 
 const typeDefs = gql`
   type User {
@@ -8,7 +8,7 @@ const typeDefs = gql`
     email: String
     password: String
   }
-  input CreateUserInput {
+  input RegisterInput {
     firstName: String
     lastName: String
     email: String
@@ -25,7 +25,7 @@ const typeDefs = gql`
     users(filter: FilterOptions): [User]
   }
   type Mutation {
-    createUser(input: CreateUserInput): User
+    register(input: RegisterInput): User
     login(input: LoginInput): User
   }
 `

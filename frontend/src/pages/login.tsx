@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { useMutation } from '@apollo/client'
-import { CREATE_USER, LOGIN } from '../graphql/mutation'
+import { Register, LOGIN } from '../graphql/mutation'
 import { toast } from 'react-toastify'
 import _ from 'lodash'
 import { useHistory } from 'react-router-dom'
@@ -194,7 +194,7 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
   )
 }
 const RegisterComponent = ({ setIsRegisterVisible }: ComponentProps) => {
-  const [createUser] = useMutation(CREATE_USER, {
+  const [register] = useMutation(Register, {
     onCompleted: () => {
       formik.resetForm()
       setIsRegisterVisible(false)
@@ -217,7 +217,7 @@ const RegisterComponent = ({ setIsRegisterVisible }: ComponentProps) => {
       password: '',
     },
     onSubmit: (values) => {
-      createUser({ variables: { input: values } })
+      register({ variables: { input: values } })
     },
   })
   const handleClose = () => {
