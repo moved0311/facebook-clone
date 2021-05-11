@@ -132,7 +132,7 @@ interface ComponentProps {
 
 const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
   const history = useHistory()
-  const [loginErrorVisible, setLoginErrorVisible] = useState(false)
+  const [error, setError] = useState({ status: false, message: '' })
   const [login] = useMutation(LOGIN, {
     onCompleted: (res) => {
       let user = _.get(res, 'login')
@@ -148,9 +148,10 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
         })
         localStorage.setItem('token', user.userId)
         history.push('/')
-      } else {
-        setLoginErrorVisible(true)
       }
+    },
+    onError: ({ message }) => {
+      setError({ status: true, message })
     },
   })
   const formik = useFormik({
@@ -181,7 +182,7 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
         <Button color="#1877f2" size="20" width="100%" height={48} type="submit">
           Log in
         </Button>
-        {loginErrorVisible && <ErrorMessage>email or password is incorrect</ErrorMessage>}
+        {error.status && <ErrorMessage>{error.message}</ErrorMessage>}
       </form>
       <Center>
         <StyledLink to="/">Forgot Password?</StyledLink>

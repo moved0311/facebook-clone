@@ -2,6 +2,8 @@ const db = require('better-sqlite3')('./fb.db')
 const { v4: uuidv4 } = require('uuid')
 import { loginValidate, registerValidate } from '../validators'
 import _ from 'lodash'
+import bcrypt from 'bcryptjs'
+import { auth } from '../util/auth'
 
 db.exec('create table if not exists user(userId, firstName, lastName, email, password)')
 // db.exec('drop table user')
@@ -15,13 +17,17 @@ export const findUser = async (filter = {}) => {
 }
 
 export const register = async (input) => {
-  const { firstName, lastName, email, password } = input
+  const { firstName, lastName, email } = input
   // validate input
   const { error } = await registerValidate.validate(input)
   if (error) throw new Error(error)
+
   // check same email
   const hasSame = await db.prepare('select * from user where (email = ?)').get(email)
   if (hasSame) throw new Error('Email is registed.')
+
+  //hash password
+  const password = await bcrypt.hash(input.password, 10)
 
   const userId = uuidv4()
   db.prepare(
@@ -33,7 +39,7 @@ export const register = async (input) => {
     email,
     password,
   })
-  return { userId, ...input }
+  return { userId, firstName, lastName, email, password }
 }
 
 export const login = async (input) => {
@@ -42,6 +48,9 @@ export const login = async (input) => {
   if (error) {
     throw new Error(error)
   }
-  const user = await db.prepare(`select * from user where (email = ? and password = ? )`).get(email, password)
-  return user
+  const user = await db.prepare(`select * from user where (email = ? )`).get(email)
+  let isPasswordSame = bcrypt.compareSync(password, user.password)
+  if (!isPasswordSame) throw Error('email or password incorrect.')
+
+  return { token: auth(user.firstName, user.lastName, user.email), user: user }
 }

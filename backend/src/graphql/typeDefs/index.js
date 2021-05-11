@@ -8,6 +8,10 @@ const typeDefs = gql`
     email: String
     password: String
   }
+  type Auth {
+    user: User
+    token: String
+  }
   input RegisterInput {
     firstName: String
     lastName: String
@@ -26,7 +30,7 @@ const typeDefs = gql`
   }
   type Mutation {
     register(input: RegisterInput): User
-    login(input: LoginInput): User
+    login(input: LoginInput): Auth
   }
 `
 module.exports = typeDefs
