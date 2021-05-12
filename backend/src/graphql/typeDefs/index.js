@@ -27,6 +27,7 @@ const typeDefs = gql`
   }
   type Query {
     users(filter: FilterOptions): [User]
+    userProfile: User
   }
   type Mutation {
     register(input: RegisterInput): User

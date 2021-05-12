@@ -52,5 +52,5 @@ export const login = async (input) => {
   let isPasswordSame = bcrypt.compareSync(password, user.password)
   if (!isPasswordSame) throw Error('email or password incorrect.')
 
-  return { token: auth(user.firstName, user.lastName, user.email), user: user }
+  return { token: auth(user.userId, user.firstName, user.lastName, user.email), user: user }
 }

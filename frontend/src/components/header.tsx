@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery } from '@apollo/client'
-import { QUERY_USERS } from '../graphql/query'
+import { QUERY_USER_PROFILE } from '../graphql/query'
 import _ from 'lodash'
 
 interface IconProps {
@@ -74,9 +74,8 @@ const AvatarComponent = ({ user }: any) => {
 }
 
 const Header = () => {
-  let userId = localStorage.getItem('token')
-  const { data } = useQuery(QUERY_USERS, { variables: { filter: { userId: userId } } })
-  const me = _.get(data, 'users[0]', {})
+  const { data } = useQuery(QUERY_USER_PROFILE)
+  const me = _.get(data, 'userProfile', {})
   return (
     <Container>
       <Link to="/">
@@ -84,7 +83,7 @@ const Header = () => {
       </Link>
       <RightContainer>
         <AvatarComponent user={me} />
-        <Link to="/login">
+        <Link to="/login" onClick={() => localStorage.removeItem('token')}>
           <WrapIcon src="/assets/icon/logout.png" />
         </Link>
       </RightContainer>

@@ -135,7 +135,8 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
   const [error, setError] = useState({ status: false, message: '' })
   const [login] = useMutation(LOGIN, {
     onCompleted: (res) => {
-      let user = _.get(res, 'login')
+      const data = _.get(res, 'login', {})
+      const { user, token } = data
       if (user) {
         toast.success('Login success', {
           position: 'top-right',
@@ -146,7 +147,7 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
           draggable: true,
           progress: undefined,
         })
-        localStorage.setItem('token', user.userId)
+        localStorage.setItem('token', token)
         history.push('/')
       }
     },

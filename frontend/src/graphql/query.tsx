@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-export const QUERY_USERS = gql`
-  query QUERY_USER($filter: FilterOptions) {
-    users(filter: $filter) {
+export const QUERY_USER_PROFILE = gql`
+  query QUERY_USER_PROFILE {
+    userProfile {
       userId
       email
       password

@@ -5,7 +5,13 @@ import resolvers from './graphql/resolvers'
 import { APP_PORT } from './config'
 
 async function startApolloServer() {
-  const server = new ApolloServer({ typeDefs, resolvers })
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: (context) => {
+      return context
+    },
+  })
   await server.start()
 
   const app = express()

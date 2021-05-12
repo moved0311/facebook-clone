@@ -14,10 +14,13 @@ export const Register = gql`
 export const LOGIN = gql`
   mutation Login($input: LoginInput) {
     login(input: $input) {
-      userId
-      firstName
-      lastName
-      email
+      user {
+        userId
+        firstName
+        lastName
+        email
+      }
+      token
     }
   }
 `
