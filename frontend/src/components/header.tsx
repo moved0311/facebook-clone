@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useQuery } from '@apollo/client'
-import { QUERY_USER_PROFILE } from '../graphql/query'
-import _ from 'lodash'
+import Avatar from './avatar'
 
+interface HeaderProps {
+  me: any
+}
 interface IconProps {
   src: string
 }
@@ -46,11 +47,6 @@ const AvatarContainer = styled.div`
 const AvatarImageContainer = styled.div`
   margin-right: 5px;
 `
-const AvatarImage = styled.img`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-`
 
 const WrapIcon = (props: IconProps) => {
   const { src } = props
@@ -66,16 +62,14 @@ const AvatarComponent = ({ user }: any) => {
   return (
     <AvatarContainer>
       <AvatarImageContainer>
-        <AvatarImage src="https://picsum.photos/28/28" alt="avatar img error" />
+        <Avatar size={28} />
       </AvatarImageContainer>
       {lastName}
     </AvatarContainer>
   )
 }
 
-const Header = () => {
-  const { data } = useQuery(QUERY_USER_PROFILE)
-  const me = _.get(data, 'userProfile', {})
+const Header = ({ me }: HeaderProps) => {
   return (
     <Container>
       <Link to="/">

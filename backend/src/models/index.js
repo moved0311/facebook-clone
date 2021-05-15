@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs'
 import { auth } from '../util/auth'
 
 db.exec('create table if not exists user(userId, firstName, lastName, email, password)')
+db.exec('create table if not exists posts(postId, content, userId, images)')
 // db.exec('drop table user')
 
 export const findUser = async (filter = {}) => {
@@ -53,4 +54,11 @@ export const login = async (input) => {
   if (!isPasswordSame) throw Error('email or password incorrect.')
 
   return { token: auth(user.userId, user.firstName, user.lastName, user.email), user: user }
+}
+export const createPost = async (input, user) => {
+  const postId = uuidv4()
+  const { content } = input
+  console.log(user)
+
+  return { postId, content, author: user }
 }

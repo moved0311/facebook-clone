@@ -1,2 +1,3 @@
 import { user } from './user'
-export default [user]
+import { post } from './post'
+export default [user, post]

@@ -1,37 +1,17 @@
 const { gql } = require('apollo-server-express')
+import { typeDef as User } from './user'
+import { typeDef as Post } from './post'
 
 const typeDefs = gql`
-  type User {
-    userId: String
-    firstName: String
-    lastName: String
-    email: String
-    password: String
-  }
-  type Auth {
-    user: User
-    token: String
-  }
-  input RegisterInput {
-    firstName: String
-    lastName: String
-    email: String
-    password: String
-  }
-  input LoginInput {
-    email: String
-    password: String
-  }
-  input FilterOptions {
-    userId: String
-  }
   type Query {
     users(filter: FilterOptions): [User]
     userProfile: User
+    posts: [Post]
   }
   type Mutation {
     register(input: RegisterInput): User
     login(input: LoginInput): Auth
+    createPost(input: PostInput): Post
   }
 `
-module.exports = typeDefs
+export default [typeDefs, User, Post]

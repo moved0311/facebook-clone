@@ -7,6 +7,7 @@ import { Register, LOGIN } from '../graphql/mutation'
 import { toast } from 'react-toastify'
 import _ from 'lodash'
 import { useHistory } from 'react-router-dom'
+import { Mask } from '../constants/styles'
 
 const Container = styled.div`
   background: #f2f2f2;
@@ -73,16 +74,6 @@ const Center = styled.div`
 const Divide = styled.hr`
   margin: 20px 0;
   border: 1px solid #dadde1;
-`
-const Mask = styled.div`
-  background: rgba(255, 255, 255, 0.8);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
 `
 const RegisterHeader = styled.div`
   border-bottom: 1px solid #dadde1;
@@ -186,7 +177,7 @@ const LoginComponent = ({ setIsRegisterVisible }: ComponentProps) => {
         {error.status && <ErrorMessage>{error.message}</ErrorMessage>}
       </form>
       <Center>
-        <StyledLink to="/">Forgot Password?</StyledLink>
+        <StyledLink to="/login">Forgot Password?</StyledLink>
         <Divide />
         <Button color="#42b72a" size="17" width="70%" height={48} onClick={() => setIsRegisterVisible(true)}>
           Create New Account
