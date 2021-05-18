@@ -6,8 +6,9 @@ import bcrypt from 'bcryptjs'
 import { auth } from '../util/auth'
 
 db.exec('create table if not exists user(userId, firstName, lastName, email, password)')
-db.exec('create table if not exists posts(postId, content, userId, images)')
+db.exec('create table if not exists posts(postId, content, userId)')
 // db.exec('drop table user')
+// db.exec('drop table posts')
 
 export const findUser = async (filter = {}) => {
   if (filter.userId) {
@@ -15,6 +16,9 @@ export const findUser = async (filter = {}) => {
   } else {
     return await db.prepare('select * from user').all()
   }
+}
+export const findUserById = async (userId) => {
+  return await db.prepare('select * from user where (userId = ?)').get(userId)
 }
 
 export const register = async (input) => {
@@ -58,7 +62,16 @@ export const login = async (input) => {
 export const createPost = async (input, user) => {
   const postId = uuidv4()
   const { content } = input
-  console.log(user)
+  db.prepare('insert into posts (postId, content, userId) values (@postId, @content, @userId)').run({
+    postId,
+    content,
+    userId: user.userId,
+  })
 
   return { postId, content, author: user }
+}
+
+export const queryPosts = async (filter = {}) => {
+  let posts = await db.prepare('select * from posts').all()
+  return posts
 }

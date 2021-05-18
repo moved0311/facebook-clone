@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { Mask } from '../constants/styles'
 import Card from './card'
 import Avatar from './avatar'
+import { useMutation } from '@apollo/client'
+import { CREATE_POST } from '../graphql/mutation'
+import { QUERY_POSTS } from '../graphql/query'
 
 interface PostModalProps {
   visible: boolean
@@ -143,6 +146,26 @@ const AddToYourPost = () => {
 
 function PostModal({ visible, setVisible, me }: PostModalProps) {
   const [content, setContent] = useState('')
+
+  // mutation
+  const [createPost] = useMutation(CREATE_POST, {
+    onCompleted: () => {
+      setContent('')
+      setVisible(false)
+    },
+  })
+
+  const handlePost = () => {
+    let input = { content }
+    createPost({
+      variables: { input },
+      refetchQueries: [
+        {
+          query: QUERY_POSTS,
+        },
+      ],
+    })
+  }
   return (
     <>
       {visible && (
@@ -163,7 +186,9 @@ function PostModal({ visible, setVisible, me }: PostModalProps) {
               />
               <Bottom>
                 <AddToYourPost />
-                <Button isDisable={content.length === 0}>Post</Button>
+                <Button isDisable={content.length === 0} onClick={() => handlePost()}>
+                  Post
+                </Button>
               </Bottom>
             </Card>
           </Center>

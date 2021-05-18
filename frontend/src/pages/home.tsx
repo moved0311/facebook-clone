@@ -4,8 +4,9 @@ import { useQuery } from '@apollo/client'
 import _ from 'lodash'
 import Header from '../components/header'
 import CreatePost from '../components/createPost'
-import { QUERY_USER_PROFILE } from '../graphql/query'
+import { QUERY_USER_PROFILE, QUERY_POSTS } from '../graphql/query'
 import PostModal from '../components/postModal'
+import Post from '../components/post'
 
 interface PostComponentProps {
   me: any
@@ -22,10 +23,29 @@ const PostContainer = styled.div`
   height: 100px;
   margin: 0 auto;
 `
+const SinglePostContainer = styled.div`
+  margin-top: 10px;
+`
+
+const PostLists = () => {
+  const { data } = useQuery(QUERY_POSTS)
+  const posts = _.get(data, 'posts', [])
+  return (
+    <>
+      {posts.map((post: any) => (
+        <SinglePostContainer key={post?.postId}>
+          <Post post={post} />
+        </SinglePostContainer>
+      ))}
+    </>
+  )
+}
+
 const PostComponent = ({ me, setVisible }: PostComponentProps) => {
   return (
     <PostContainer>
       <CreatePost me={me} setVisible={setVisible} />
+      <PostLists />
     </PostContainer>
   )
 }

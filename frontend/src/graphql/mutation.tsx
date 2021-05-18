@@ -24,3 +24,17 @@ export const LOGIN = gql`
     }
   }
 `
+export const CREATE_POST = gql`
+  mutation CREATE_POST($input: PostInput) {
+    createPost(input: $input) {
+      postId
+      content
+      author {
+        userId
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`
