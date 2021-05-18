@@ -11,3 +11,18 @@ export const QUERY_USER_PROFILE = gql`
     }
   }
 `
+
+export const QUERY_POSTS = gql`
+  query QUERY_POSTS {
+    posts {
+      postId
+      content
+      author {
+        userId
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`

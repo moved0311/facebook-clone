@@ -6,11 +6,13 @@ interface CardProps {
   mt?: number
   width?: number
   height?: number
+  padding?: string
 }
 interface ContainerProps {
   mt?: number
   width?: number
   height?: number
+  padding?: string
 }
 const Container = styled.div<ContainerProps>`
   width: ${(p) => (p.width ? `${p.width}px` : '100%')};
@@ -19,11 +21,12 @@ const Container = styled.div<ContainerProps>`
   border-radius: 8px;
   box-shadow: 0.5px 0.5px rgba(0, 0, 0, 0.2);
   margin-top: ${(p) => p.mt}px;
+  padding: ${(p) => p.padding};
 `
 
-function Card({ children, mt, width, height }: CardProps) {
+function Card({ children, mt, width, height, padding }: CardProps) {
   return (
-    <Container mt={mt} width={width} height={height}>
+    <Container mt={mt} width={width} height={height} padding={padding}>
       {children}
     </Container>
   )
